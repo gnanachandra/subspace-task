@@ -1,14 +1,21 @@
 import asyncHandler from "express-async-handler";
 import axios from "axios";
 import _ from "lodash";
+import { config } from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const envPath = resolve(__dirname, '../../server/.env');
+config({ path: envPath });
+
 //fetchData middleware function to fetch the data from the api end point
 export const fetchData = asyncHandler(async (req, res, next) => {
   const axiosResponse = await axios.get(
-    `https://intent-kit-16.haasura.app/api/rest/blogs`,
+    'https://intent-kit-16.hasura.app/api/rest/blogs',
     {
       headers: {
-        "x-hasura-admin-secret":
-          "32qR4KmXOIpsGPQKMqEJHGJS27G5s7HdSKO3gdtQd2kv5e852SiYwWNfxkZOBuQ6",
+        "x-hasura-admin-secret": `${process.env.API_KEY}`
       },
     }
   );
