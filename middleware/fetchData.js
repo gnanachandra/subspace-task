@@ -1,13 +1,6 @@
 import asyncHandler from "express-async-handler";
 import axios from "axios";
 import _ from "lodash";
-import { config } from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const envPath = resolve(__dirname, "../../server/.env");
-config({ path: envPath });
 
 const memorizeStats = _.memoize((blogs) => {
   //task - 2
@@ -47,11 +40,13 @@ const memorizeStats = _.memoize((blogs) => {
 
 //fetchData middleware function to fetch the data from the api end point
 export const fetchData = asyncHandler(async (req, res, next) => {
+  const headers = req.headers;
+  const apiKey = headers['x-hasura-admin-secret'];
   const axiosResponse = await axios.get(
     "https://intent-kit-16.hasura.app/api/rest/blogs",
     {
       headers: {
-        "x-hasura-admin-secret": `${process.env.API_KEY}`,
+        "x-hasura-admin-secret": `${apiKey}`,
       },
     }
   );

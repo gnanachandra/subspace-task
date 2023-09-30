@@ -3,13 +3,11 @@ import cors from "cors";
 import { ErrorMiddleWare } from "./middleware/error.js";
 import { StatusCodes } from "http-status-codes";
 import { fetchData } from "./middleware/fetchData.js";
-import dotenv from "dotenv";
 import _ from "lodash";
 import { memorizeSearch } from "./utils/memorizeSearch.js";
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT =  5000;
 app.use(
   "*",
   cors({
