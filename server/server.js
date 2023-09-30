@@ -30,9 +30,10 @@ app.get("/api/blog-stats", (req, res) => {
     .status(StatusCodes.OK)
     .json({
       message: "Working !",
-      length: req.totalBlogs,
-      longestBlog: req.longestBlog,
-      blogsWithPrivacy: req.blogsWithPrivacy,
+      totalBlogs: req.totalBlogs,
+      longestBlogTitle: req.longestBlogTitle,
+      blogsWithPrivacyWord : req.blogsWithPrivacyWord,
+      uniqueTitles : req.uniqueTitles
     });
 });
 

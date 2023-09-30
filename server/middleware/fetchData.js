@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import axios from "axios";
-import _ from "lodash"
+import _ from "lodash";
 //fetchData middleware function to fetch the data from the api end point
 export const fetchData = asyncHandler(async (req, res, next) => {
   const axiosResponse = await axios.get(
@@ -15,15 +15,38 @@ export const fetchData = asyncHandler(async (req, res, next) => {
 
   //data received from the endpoint
   const blogs = axiosResponse.data.blogs;
-  const totalBlogs = blogs.length;
-  const longestBlog = _.maxBy(blogs, "title");
-  const blogsWithPrivacy = blogs.filter((blog) =>
-    blog.title.toLowerCase().includes("privacy")
-  );
-  const uniqueTitles = _.uniqBy(blogs, "title").map((blog) => blog.title);
-		// console.log(blogs)
+
+  //task - 2
+
+  //1. Calculate the total number of blogs fetched.
+  const totalBlogs = _.size(blogs);
+
+  //2. Find the blog with the longest title.
+  let longestTitleLength = 1;
+  let longestTitleBlog = {};
+  _.forEach(blogs, function (blog) {
+    let blogTitleLength = _.size(blog.title);
+    if (blogTitleLength > longestTitleLength) {
+      longestTitleLength = blogTitleLength;
+      longestTitleBlog = blog;
+    }
+  });
+
+  //3. Determine the number of blogs with titles containing the word "privacy."
+  let count = 0;
+  _.forEach(blogs, function (blog) {
+    if (blog.title.toLowerCase().includes("privacy")) {
+      count = count + 1;
+    }
+  });
+
+  //4. Create an array of unique blog titles (no duplicates).
+  const uniqueTitles = _.map(_.uniqBy(blogs,'title'),'title');
+  
   req.totalBlogs = totalBlogs;
-  req.longestBlog = longestBlog;
-  req.blogsWithPrivacy = blogsWithPrivacy;
+  req.longestBlogTitle = longestTitleBlog.title;
+  req.blogsWithPrivacyWord = count;
+  req.uniqueTitles = uniqueTitles;
+
   next();
 });
