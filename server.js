@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
     message: "SubSpace Backend Development Internship Task",
     doneBy: "V.Gnana chandra",
     portfolio: "https://portfolio-gnanachandra.vercel.app/",
-    deployedIn : "Google Cloud App Engine"
+    deployedIn : "Google Cloud Run Service"
   });
 });
 
