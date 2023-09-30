@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { fetchData } from "./middleware/fetchData.js";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,17 @@ app.get("/api/blog-stats", (req, res) => {
       uniqueTitles : req.uniqueTitles
     });
 });
+
+app.get("/api/blog-search",(req,res)=>{
+  const {query} = req.query;
+  if(!query)
+  {
+    return res.status(StatusCodes.BAD_REQUEST).json({message : "search query not received !"})
+  }
+  const blogs = req.blogs;
+  const filteredBlogs = blogs.filter((blog)=>blog.title.toLowerCase().includes(query));
+  return res.status(StatusCodes.OK).json({message : "Blog search end point",blogs:filteredBlogs})
+})
 
 app.listen(PORT, () => {
   console.log(`server started on port : ${PORT}`);

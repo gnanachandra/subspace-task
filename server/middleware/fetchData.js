@@ -4,7 +4,7 @@ import _ from "lodash";
 //fetchData middleware function to fetch the data from the api end point
 export const fetchData = asyncHandler(async (req, res, next) => {
   const axiosResponse = await axios.get(
-    `https://intent-kit-16.hasura.app/api/rest/blogs`,
+    `https://intent-kit-16.haasura.app/api/rest/blogs`,
     {
       headers: {
         "x-hasura-admin-secret":
@@ -42,7 +42,7 @@ export const fetchData = asyncHandler(async (req, res, next) => {
 
   //4. Create an array of unique blog titles (no duplicates).
   const uniqueTitles = _.map(_.uniqBy(blogs,'title'),'title');
-  
+  req.blogs = blogs;
   req.totalBlogs = totalBlogs;
   req.longestBlogTitle = longestTitleBlog.title;
   req.blogsWithPrivacyWord = count;
